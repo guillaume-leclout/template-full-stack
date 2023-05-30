@@ -1,17 +1,17 @@
+const BaseController = require('./BaseController');
 const { UserModel } = require('../models');
 
-function getAllUsers(req, res) {
-  const userModel = new UserModel();
-  userModel
-    .getAll()
-    .then(function ([results, useless]) {
-      return res.status(200).json(results);
-    })
-    .catch(function (error) {
-      return res.sendStatus(500);
-    });
+class UserController extends BaseController {
+  userModel;
+
+  constructor(req, res) {
+    super(req, res);
+    this.userModel = new UserModel();
+  }
+
+  getAll() {
+    this.userModel.getAll().then(([results]) => this.sendJson(results));
+  }
 }
 
-module.exports = {
-  getAllUsers,
-};
+module.exports = UserController;
